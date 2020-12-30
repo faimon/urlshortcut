@@ -17,7 +17,7 @@ class UserServiceTest {
     UserService userService;
 
     @Test
-    public void whenGenerateAndReturnUser() {
+    public void whenSaveUser() {
         String site = "www.rbc.ru";
         User user = userService.saveUser(site);
         assertThat(user.getSite(), is(site));
