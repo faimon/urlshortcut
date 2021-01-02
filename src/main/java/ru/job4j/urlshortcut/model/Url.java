@@ -10,9 +10,10 @@ public class Url {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @JoinColumn(name = "url", unique = true)
     private String url;
 
-    @JoinColumn(name = "url_short")
+    @JoinColumn(name = "url_short", unique = true)
     private String urlShort;
 
     @JoinColumn(name = "count_calls")

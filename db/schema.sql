@@ -16,8 +16,8 @@ CREATE TABLE users
 CREATE TABLE urls
 (
     id          SERIAL PRIMARY KEY,
-    url         TEXT NOT NULL,
-    url_short   TEXT NOT NULL,
+    url         TEXT NOT NULL UNIQUE,
+    url_short   TEXT NOT NULL UNIQUE,
     count_calls INT,
     user_id     INT REFERENCES users (id)
 );

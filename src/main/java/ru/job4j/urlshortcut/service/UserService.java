@@ -46,4 +46,8 @@ public class UserService {
     public User findUserBySite(String site) {
         return userRepository.findUserBySite(site);
     }
+
+    public User findUserByLogin(String login) {
+        return userRepository.findUserByLogin(login);
+    }
 }

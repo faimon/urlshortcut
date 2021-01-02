@@ -24,13 +24,16 @@ public class UserController {
     @PostMapping(value = "/registration", consumes = "application/json")
     public ResponseEntity<UserDto> createUser(@RequestBody Map<String, String> body) {
         String site = body.get("site");
-        UserDto userDto = createUserIfExist(site);
+        if (site == null) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        UserDto userDto = createUserDtoIfExist(site);
         return new ResponseEntity<>(
                 userDto,
                 HttpStatus.CREATED);
     }
 
-    private UserDto createUserIfExist(String site) {
+    private UserDto createUserDtoIfExist(String site) {
         UserDto userDto;
         if (userService.userIsExist(site)) {
             userDto = new UserDto(false, null, null);
