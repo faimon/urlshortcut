@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import ru.job4j.urlshortcut.model.Url;
 import ru.job4j.urlshortcut.repository.UrlRepository;
 
+import java.util.List;
+
 import static org.apache.commons.text.CharacterPredicates.DIGITS;
 import static org.apache.commons.text.CharacterPredicates.LETTERS;
 
@@ -12,7 +14,6 @@ import static org.apache.commons.text.CharacterPredicates.LETTERS;
 public class UrlService {
     private final UrlRepository urlRepository;
     private final UserService userService;
-
 
     public UrlService(UrlRepository urlRepository, UserService userService) {
         this.urlRepository = urlRepository;
@@ -33,7 +34,20 @@ public class UrlService {
         return url;
     }
 
+    public Url findUrlByShortUrl(String shortUrl) {
+        return urlRepository.findUrlByUrlShort(shortUrl);
+    }
+
     public Url findUrl(String url) {
         return urlRepository.findUrlByUrl(url);
+    }
+
+    public void incrementCountCalls(Url url) {
+        url.setCountCalls(url.getCountCalls() + 1);
+        urlRepository.save(url);
+    }
+
+    public List<Url> findAll() {
+        return (List<Url>) urlRepository.findAll();
     }
 }

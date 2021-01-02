@@ -2,7 +2,6 @@ package ru.job4j.urlshortcut.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,18 +13,16 @@ import java.util.Map;
 @RestController
 public class UserController {
     private final UserService userService;
-    private final BCryptPasswordEncoder encoder;
 
-    public UserController(UserService userService, BCryptPasswordEncoder encoder) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.encoder = encoder;
     }
 
     @PostMapping(value = "/registration", consumes = "application/json")
     public ResponseEntity<UserDto> createUser(@RequestBody Map<String, String> body) {
         String site = body.get("site");
         if (site == null) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         UserDto userDto = createUserDtoIfExist(site);
         return new ResponseEntity<>(

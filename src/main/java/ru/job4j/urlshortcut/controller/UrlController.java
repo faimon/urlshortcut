@@ -4,14 +4,15 @@ import org.apache.commons.validator.routines.UrlValidator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.job4j.urlshortcut.dto.ApiError;
 import ru.job4j.urlshortcut.dto.UrlDto;
+import ru.job4j.urlshortcut.dto.UrlStatisticDTO;
 import ru.job4j.urlshortcut.model.Url;
 import ru.job4j.urlshortcut.service.UrlService;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -45,5 +46,24 @@ public class UrlController {
         return new ResponseEntity<>(
                 new UrlDto(url.getUrlShort()),
                 HttpStatus.OK);
+    }
+
+    @GetMapping("/redirect/{url}")
+    public ResponseEntity<Object> redirectToUrl(@PathVariable("url") String shortUrl) {
+        Url url = urlService.findUrlByShortUrl(shortUrl);
+        urlService.incrementCountCalls(url);
+        return ResponseEntity.status(HttpStatus.FOUND)
+                .header("url", url.getUrl())
+                .build();
+    }
+
+    @GetMapping("/statistic")
+    public List<UrlStatisticDTO> getStatisticCallsUrl() {
+        List<UrlStatisticDTO> statisticUrls = new ArrayList<>();
+        urlService.findAll()
+                .forEach(url -> statisticUrls.add(new UrlStatisticDTO(
+                        url.getUrl(),
+                        url.getCountCalls())));
+        return statisticUrls;
     }
 }
