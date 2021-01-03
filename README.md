@@ -1,4 +1,5 @@
 # URL shortCut - сервис для сокращения http ссылок.
+[![Build Status](https://travis-ci.org/faimon/urlshortcut.svg?branch=master)](https://travis-ci.org/faimon/urlshortcut)
 ### Приложение работает через REST API, для авторизации используется JWT token.
 **Используемые технологии:** 
 * Java 14.
