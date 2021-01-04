@@ -43,8 +43,7 @@ public class UrlService {
     }
 
     public void incrementCountCalls(Url url) {
-        url.setCountCalls(url.getCountCalls() + 1);
-        urlRepository.save(url);
+        urlRepository.incrementUrlCountById(url.getId());
     }
 
     public List<Url> findAll() {
